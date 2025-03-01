@@ -1,6 +1,6 @@
 const Speed = () => {
   return (
-    <section id="hero" className="container mx-auto pt-[60px]">
+    <section id="speed" className="container mx-auto pt-[60px]">
       <div className="flex min-h-svh flex-col items-center justify-center gap-2 text-white md:w-1/2">
         <h3 className="mb-3 text-center text-3xl font-semibold text-balance">
           0 à 100Km/h em apenas 5,2 segundos

@@ -6,13 +6,13 @@ import Speed from "./layout/Speed";
 
 const App = () => {
   return (
-    <div className="bg-black">
+    <>
       <Model3D />
       <Header />
       <Hero />
       <Speed />
       <Driver />
-    </div>
+    </>
   );
 };
 

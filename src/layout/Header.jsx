@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar";
 
 const Header = () => {
   return (
-    <header className="bg-white fixed w-full z-[2]">
+    <header className="fixed z-[2] w-full bg-white">
       <Navbar />
     </header>
   );

@@ -58,7 +58,7 @@ const Navbar = () => {
       {window.innerWidth > 768 && (
         <>
           <nav>
-            <ul className="flex items-center font-semibold text-black gap-5">
+            <ul className="flex items-center gap-5 font-semibold text-black">
               {navLinks.map((item, i) => (
                 <a key={i} href={`#${item.link}`}>
                   <li>{item.name}</li>

@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+html {
+  @apply scroll-smooth;
+}
+
+body {
+  @apply bg-black;
+}
+
 .primary-text {
-  @apply mb-3 bg-gradient-to-b from-white to-blue-600 to-75% bg-clip-text text-5xl font-bold text-transparent;
+  @apply mb-3 bg-gradient-to-b from-white to-blue-600 to-75% bg-clip-text text-center text-5xl font-bold text-wrap text-transparent;
 }
