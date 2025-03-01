@@ -1,6 +1,6 @@
 const Driver = () => {
   return (
-    <section id="driver" className="flex min-h-svh flex-col items-center gap-2 pt-10 text-white">
+    <section id="driver" className="pt-[60px] flex min-h-svh flex-col items-center gap-2 pt-10 text-white">
       <p className="text-xl text-gray-300">Novo</p>
       <h2 className="primary-text">Piloto automático adaptativo</h2>
       <h3 className="flex items-center gap-3 text-3xl font-semibold">

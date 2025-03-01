@@ -1,6 +1,6 @@
 const Hero = () => {
   return (
-    <section className="flex min-h-[calc(100svh-60px)] flex-col items-center justify-center gap-2 text-white">
+    <section className="pt-[60px] flex min-h-svh relative z-[1] flex-col items-center justify-center gap-2 text-white">
       <p className="text-gray-300 text-xl">Novo</p>
       <h2 className="text-3xl font-semibold mb-3">BMW G20 330i</h2>
       <h1 className="primary-text">
