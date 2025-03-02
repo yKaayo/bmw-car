@@ -46,6 +46,10 @@ const Model3D = () => {
       model.rotation.x = Math.PI * 2.05;
       model.rotation.y = Math.PI * 1;
 
+      gsap.to('#model', {
+        y: 60
+      })
+
       let tl = gsap.timeline({
         scrollTrigger: {
           trigger: "#root",
@@ -55,14 +59,6 @@ const Model3D = () => {
         },
         reversed: false,
       });
-
-      tl.set(
-        "#model",
-        {
-          y: 60,
-        },
-        0,
-      );
 
       // Speed
       tl.to(
@@ -79,14 +75,14 @@ const Model3D = () => {
             "#model",
             {
               x: "25%",
-              y: 0,
+              y: -80,
             },
             0,
           )
         : tl.to(
             "#model",
             {
-              y: 0,
+              y: -80,
             },
             0,
           );
@@ -99,7 +95,7 @@ const Model3D = () => {
           x: 0,
           y: 60,
         },
-        0.4,
+        0.5,
       );
 
       tl.to(
@@ -107,7 +103,7 @@ const Model3D = () => {
         {
           y: 60,
         },
-        0.4,
+        0.5,
       );
 
       tl.to(
@@ -115,7 +111,7 @@ const Model3D = () => {
         {
           y: Math.PI * 2,
         },
-        0.4,
+        0.5,
       );
       // Driver - End
 
@@ -123,9 +119,9 @@ const Model3D = () => {
       tl.to(
         "#model",
         {
-          y: 0,
+          y: -80,
         },
-        0.8,
+        0.9,
       );
 
       tl.to(
@@ -134,7 +130,7 @@ const Model3D = () => {
           x: Math.PI * 2.05,
           y: Math.PI * 3,
         },
-        0.8,
+        0.9,
       );
       // Last Section - End
     });
