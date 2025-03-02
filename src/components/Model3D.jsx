@@ -4,7 +4,6 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const Model3D = () => {
   const modelRef = useRef(null);
@@ -19,9 +18,9 @@ const Model3D = () => {
     const camera = new THREE.PerspectiveCamera(65, width / height, 0.1, 1000);
 
     if (width < 375) {
-      camera.position.z = 10;
+      camera.position.z = 8;
     } else if (width >= 375 && width < 768) {
-      camera.position.z = 10.5;
+      camera.position.z = 6;
     } else if (width >= 768) {
       camera.position.z = 4.5;
     }
@@ -36,9 +35,6 @@ const Model3D = () => {
     renderer.setSize(width, height);
     renderer.setPixelRatio(window.devicePixelRatio);
 
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enabled = false;
-
     const loader = new GLTFLoader();
     loader.load("/bmw_g20_330i.glb", function (gltf) {
       scene.add(gltf.scene);
@@ -47,11 +43,6 @@ const Model3D = () => {
       model.rotation.x = Math.PI * 2.05;
       model.rotation.y = Math.PI * 1;
 
-      gsap.set("#model", {
-        x: 0,
-        y: "80%",
-      });
-
       let tl = gsap.timeline({
         scrollTrigger: {
           trigger: "#root",
@@ -59,8 +50,18 @@ const Model3D = () => {
           end: "bottom bottom",
           scrub: true,
         },
+        reversed: false,
       });
 
+      tl.set(
+        "#model",
+        {
+          y: 60,
+        },
+        0,
+      );
+
+      // Speed
       tl.to(
         model.rotation,
         {
@@ -75,23 +76,25 @@ const Model3D = () => {
             "#model",
             {
               x: "25%",
-              y: "50%",
+              y: 0,
             },
             0,
           )
         : tl.to(
             "#model",
             {
-              y: "50%",
+              y: 0,
             },
             0,
           );
+      // Speed - End
 
+      // Driver
       tl.to(
         "#model",
         {
           x: 0,
-          y: "80%",
+          y: 60,
         },
         0.4,
       );
@@ -99,26 +102,38 @@ const Model3D = () => {
       tl.to(
         "#model",
         {
-          x: "0",
+          y: 60,
         },
-        0.55,
+        0.4,
       );
 
       tl.to(
+        model.rotation,
+        {
+          y: Math.PI * 2,
+        },
+        0.4,
+      );
+      // Driver - End
+
+      // Last Section
+      tl.to(
         "#model",
         {
-          y: "50%",
-          onStart: () => {
-            controls.enabled = true;
-            controls.minDistance = 3.5;
-            controls.maxDistance = 6;
-          },
-          onUpdate: () => {
-            controls.update();
-          },
+          y: 0,
         },
         0.8,
       );
+
+      tl.to(
+        model.rotation,
+        {
+          x: Math.PI * 2.05,
+          y: Math.PI * 3,
+        },
+        0.8,
+      );
+      // Last Section - End
     });
 
     modelRef.current.innerHTML = "";
@@ -137,7 +152,7 @@ const Model3D = () => {
     <div
       ref={modelRef}
       id="model"
-      className="fixed left-1/2 z-[5] h-[60%] w-[90%] -translate-1/2 sm:w-[60%]"
+      className="fixed bottom-0 left-1/2 z-[-1] h-[65%] w-[80%] -translate-x-1/2"
     ></div>
   );
 };

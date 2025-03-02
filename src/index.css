@@ -8,6 +8,26 @@ body {
   @apply bg-black;
 }
 
-.primary-text {
-  @apply mb-3 bg-gradient-to-b from-white to-blue-600 to-75% bg-clip-text text-center text-5xl font-bold text-wrap text-transparent;
+.text--primary {
+  @apply mb-3 bg-gradient-to-b from-white to-blue-600 to-75% bg-clip-text text-center text-3xl font-bold text-wrap text-transparent drop-shadow-lg md:text-5xl;
+}
+
+.text--secundary {
+  @apply text-xl font-semibold text-balance drop-shadow-lg md:text-3xl;
+}
+
+.paragraph {
+  @apply text-lg text-gray-300 drop-shadow-lg md:text-xl;
+}
+
+canvas {
+  /* @apply pointer-events-none; */
+}
+
+.content--center {
+  @apply pt-[30%] sm:pt-[15%] md:pt-[8%];
+}
+
+.cta {
+  @apply cursor-pointer rounded-lg border-2 border-blue-600 bg-blue-600 px-3 py-1 text-xl font-bold duration-300 hover:scale-105 hover:bg-transparent;
 }

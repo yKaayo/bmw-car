@@ -8,8 +8,10 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navLinks = [
-    { name: "Produtos", link: "produtos" },
-    { name: "Ajuda", link: "ajuda" },
+    { name: "Home", link: "home" },
+    { name: "Velocidade", link: "speed" },
+    { name: "Detalhes", link: "driver" },
+    { name: "Experimente", link: "end" },
   ];
 
   return (
@@ -24,7 +26,7 @@ const Navbar = () => {
           onClick={() => setMenuOpen((prevMenu) => !prevMenu)}
         >
           <img
-            className="size-9 cursor-pointer"
+            className="size-8 cursor-pointer"
             src={!menuOpen ? menuIcon : closeMenuIcon}
             alt={!menuOpen ? "Abrir o menu" : "Fechar o menu"}
           />
@@ -58,10 +60,12 @@ const Navbar = () => {
       {window.innerWidth > 768 && (
         <>
           <nav>
-            <ul className="flex items-center gap-5 font-semibold text-black">
+            <ul className="flex items-center gap-8 font-semibold text-black">
               {navLinks.map((item, i) => (
                 <a key={i} href={`#${item.link}`}>
-                  <li>{item.name}</li>
+                  <li className="text-lg font-semibold text-black duration-300 hover:text-blue-600">
+                    {item.name}
+                  </li>
                 </a>
               ))}
             </ul>

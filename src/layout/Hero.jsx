@@ -1,13 +1,13 @@
 const Hero = () => {
   return (
     <section
-      id="hero"
-      className="relative z-[1] flex min-h-svh flex-col items-center justify-center gap-2 pt-[60px] text-white"
+      id="home"
+      className="relative z-[1] flex min-h-svh flex-col items-center gap-2 content--center text-white"
     >
-      <p className="text-xl text-gray-300">Novo</p>
-      <h2 className="mb-3 text-3xl font-semibold">BMW G20 330i</h2>
-      <h1 className="primary-text">Rápido e Melhor</h1>
-      <h2 className="flex items-center gap-3 text-3xl font-semibold">
+      <p className="paragraph">Novo</p>
+      <h2 className="mb-3 text--secundary">BMW G20 330i</h2>
+      <h1 className="text--primary">Rápido e Melhor</h1>
+      <h2 className="flex items-center gap-3 text--secundary">
         R$250.000
         <span className="relative text-xl">
           R$330.000
@@ -16,10 +16,10 @@ const Hero = () => {
       </h2>
 
       <div className="mt-5 flex items-center gap-3">
-        <button className="cursor-pointer rounded-lg bg-blue-600 px-3 py-1 text-xl font-bold">
+        <button className="cta">
           Comprar
         </button>
-        <a href="#hero" className="text-xl text-blue-600">
+        <a href="#speed" className="text-xl text-blue-600">
           Saber mais
         </a>
       </div>
