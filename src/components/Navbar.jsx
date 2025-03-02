@@ -26,7 +26,7 @@ const Navbar = () => {
           onClick={() => setMenuOpen((prevMenu) => !prevMenu)}
         >
           <img
-            className="size-8 cursor-pointer"
+            className="size-6 cursor-pointer"
             src={!menuOpen ? menuIcon : closeMenuIcon}
             alt={!menuOpen ? "Abrir o menu" : "Fechar o menu"}
           />
@@ -34,10 +34,10 @@ const Navbar = () => {
       )}
 
       {menuOpen && (
-        <div className="absolute top-[60px] left-0 w-full px-10">
+        <div className="absolute top-[68px] left-0 w-full px-10">
           <div className="rounded-lg bg-blue-600 px-5 py-2">
             <nav>
-              <ul className="mb-5 flex flex-col gap-1 font-semibold text-white">
+              <ul className="mb-5 flex flex-col gap-3 font-semibold text-white">
                 {navLinks.map((item, i) => (
                   <a key={i} href={`#${item.link}`}>
                     <li>{item.name}</li>

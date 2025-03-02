@@ -1,7 +1,7 @@
 const Speed = () => {
   return (
-    <section id="speed" className="container mx-auto pt-[60px]">
-      <div className="flex min-h-svh flex-col items-center justify-center gap-2 text-white md:w-1/2">
+    <section id="speed" className="container mx-auto pt-[100px]">
+      <div className="flex min-h-svh flex-col items-center justify-start md:justify-center gap-2 text-white md:w-1/2">
         <h3 className="text--secundary mb-3 text-center">
           0 à 100Km/h em apenas 5,2 segundos
         </h3>
@@ -15,9 +15,7 @@ const Speed = () => {
         </h3>
 
         <div className="mt-5 flex items-center gap-3">
-          <button className="cta">
-            Comprar
-          </button>
+          <button className="cta">Comprar</button>
           <a href="#driver" className="text-xl text-blue-600">
             Saber mais
           </a>

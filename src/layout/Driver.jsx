@@ -2,7 +2,7 @@ const Driver = () => {
   return (
     <section
       id="driver"
-      className="content--center flex min-h-svh flex-col items-center gap-2 text-white"
+      className="content--center flex min-h-svh flex-col items-center relative z-[2] gap-2 text-white"
     >
       <p className="text-xl text-gray-300">Novo</p>
       <h2 className="text--primary">Piloto automático adaptativo</h2>

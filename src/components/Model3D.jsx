@@ -1,9 +1,9 @@
-import { useEffect } from "react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const Model3D = () => {
   const modelRef = useRef(null);
@@ -34,6 +34,9 @@ const Model3D = () => {
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
     renderer.setPixelRatio(window.devicePixelRatio);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableZoom = false;
 
     const loader = new GLTFLoader();
     loader.load("/bmw_g20_330i.glb", function (gltf) {
@@ -142,9 +145,14 @@ const Model3D = () => {
 
     function animate() {
       requestAnimationFrame(animate);
-      renderer.render(scene, camera);
-    }
 
+      ScrollTrigger.isInViewport("#end")
+        ? (controls.enableRotate = true)
+        : (controls.enableRotate = false);
+
+      renderer.render(scene, camera);
+      controls.update();
+    }
     animate();
   }, []);
 
@@ -152,7 +160,7 @@ const Model3D = () => {
     <div
       ref={modelRef}
       id="model"
-      className="fixed bottom-0 left-1/2 z-[-1] h-[65%] w-[80%] -translate-x-1/2"
+      className="fixed bottom-0 left-1/2 z-[1] h-[65%] w-[80%] -translate-x-1/2"
     ></div>
   );
 };
