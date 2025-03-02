@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const Model3D = () => {
   const modelRef = useRef(null);
@@ -15,8 +16,31 @@ const Model3D = () => {
 
     const { width, height } = modelRef.current.getBoundingClientRect();
 
+    const camera = new THREE.PerspectiveCamera(65, width / height, 0.1, 1000);
+
+    if (width < 375) {
+      camera.position.z = 10;
+    } else if (width >= 375 && width < 768) {
+      camera.position.z = 10.5;
+    } else if (width >= 768) {
+      camera.position.z = 4.5;
+    }
+
+    const light = new THREE.AmbientLight(0xffffff, 0.6);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
+    directionalLight.position.set(1, 0, 2);
+    scene.add(light);
+    scene.add(directionalLight);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enabled = false;
+
     const loader = new GLTFLoader();
-    loader.load('/bmw_g20_330i.glb', function (gltf) {
+    loader.load("/bmw_g20_330i.glb", function (gltf) {
       scene.add(gltf.scene);
       const model = gltf.scene;
 
@@ -46,14 +70,22 @@ const Model3D = () => {
         0,
       );
 
-      tl.to(
-        "#model",
-        {
-          x: "25%",
-          y: "50%",
-        },
-        0,
-      );
+      window.innerWidth >= 768
+        ? tl.to(
+            "#model",
+            {
+              x: "25%",
+              y: "50%",
+            },
+            0,
+          )
+        : tl.to(
+            "#model",
+            {
+              y: "50%",
+            },
+            0,
+          );
 
       tl.to(
         "#model",
@@ -61,7 +93,7 @@ const Model3D = () => {
           x: 0,
           y: "80%",
         },
-        0.65,
+        0.4,
       );
 
       tl.to(
@@ -69,71 +101,26 @@ const Model3D = () => {
         {
           x: "0",
         },
-        0.8,
+        0.55,
       );
 
-      // // Speed
-      // gsap.to(model.rotation, {
-      //   x: Math.PI * 2,
-      //   y: Math.PI * 1.5,
-      //   scrollTrigger: {
-      //     trigger: "#speed",
-      //     start: "-20% center",
-      //     end: "center center",
-      //     scrub: true,
-      //   },
-      // });
-
-      // window.innerWidth >= 768 &&
-      //   gsap.to("#model", {
-      //     x: "25%",
-      //     y: "50%",
-      //     scrollTrigger: {
-      //       trigger: "#speed",
-      //       start: "-20% center",
-      //       end: "center center",
-      //       scrub: true,
-      //       markers: true
-      //     },
-      //   });
-      // // Speed - End
-
-      // // Driver
-      // gsap.to("#model", {
-      //   x: 0,
-      //   y: "80%",
-      //   scrollTrigger: {
-      //     trigger: "#driver",
-      //     start: "-20% center",
-      //     end: "center center",
-      //     scrub: true,
-      //     markers: true
-      //   },
-      // });
-      // // Driver -End
+      tl.to(
+        "#model",
+        {
+          y: "50%",
+          onStart: () => {
+            controls.enabled = true;
+            controls.minDistance = 3.5;
+            controls.maxDistance = 6;
+          },
+          onUpdate: () => {
+            controls.update();
+          },
+        },
+        0.8,
+      );
     });
 
-    const camera = new THREE.PerspectiveCamera(65, width / height, 0.1, 1000);
-
-    // if (width < 375) {
-    //   camera.position.z = 10;
-    // } else if (width >= 375 && width < 768) {
-    //   camera.position.z = 10.5;
-    // } else if (width >= 768) {
-    //   camera.position.z = 4.5;
-    // }
-
-    camera.position.z = 4.5;
-
-    const light = new THREE.AmbientLight(0xffffff, 0.6);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
-    directionalLight.position.set(1, 0, 2);
-    scene.add(light);
-    scene.add(directionalLight);
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(window.devicePixelRatio);
     modelRef.current.innerHTML = "";
 
     modelRef.current.appendChild(renderer.domElement);

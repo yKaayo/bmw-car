@@ -12,6 +12,7 @@ const App = () => {
       <Hero />
       <Speed />
       <Driver />
+      <div className="h-svh"></div>
     </>
   );
 };
