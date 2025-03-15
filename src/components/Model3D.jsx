@@ -1,162 +1,155 @@
-import { useEffect, useRef } from "react";
+import { useRef, useEffect } from "react";
 import * as THREE from "three";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const Model3D = () => {
-  const modelRef = useRef(null);
-
   gsap.registerPlugin(ScrollTrigger);
 
+  const mountRef = useRef(null);
+
   useEffect(() => {
+    const mount = mountRef.current;
+
     const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000,
+    );
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    mount.appendChild(renderer.domElement);
 
-    const { width, height } = modelRef.current.getBoundingClientRect();
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
 
-    const camera = new THREE.PerspectiveCamera(65, width / height, 0.1, 1000);
-
-    if (width < 375) {
-      camera.position.z = 8;
-    } else if (width >= 375 && width < 768) {
-      camera.position.z = 6;
-    } else if (width >= 768) {
-      camera.position.z = 4.5;
-    }
-
-    const light = new THREE.AmbientLight(0xffffff, 0.6);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
-    directionalLight.position.set(1, 0, 2);
-    scene.add(light);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(1, 1, 1).normalize();
     scene.add(directionalLight);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(window.devicePixelRatio);
-
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableZoom = false;
-
     const loader = new GLTFLoader();
-    loader.load("/bmw_g20_330i.glb", function (gltf) {
-      scene.add(gltf.scene);
+    loader.load("/bmw_g20_330i.glb", (gltf) => {
       const model = gltf.scene;
+      scene.add(model);
 
-      model.rotation.x = Math.PI * 2.05;
+      if (window.innerWidth < 850) {
+        model.scale.set(0.65, 0.65, 0.65);
+      } else if (window.innerWidth >= 850 && window.innerWidth < 1000) {
+        model.scale.set(0.7, 0.7, 0.7);
+      } else {
+        model.scale.set(1, 1, 1);
+      }
+
+      model.position.set(0, 0, 0);
+
+      model.rotation.x = Math.PI * 2.02;
       model.rotation.y = Math.PI * 1;
 
-      gsap.to('#model', {
-        y: 60
-      })
-
-      let tl = gsap.timeline({
+      // GSAP
+      const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: "#root",
-          start: "top top",
-          end: "bottom bottom",
+          trigger: "#speed",
+          start: "-80% 20%",
+          end: "40% center",
           scrub: true,
         },
-        reversed: false,
       });
 
-      // Speed
+      window.innerWidth >= 768
+        ? tl.to(mountRef.current, {
+            x: 250,
+            y: "-15%",
+          })
+        : tl.to(mountRef.current, {
+            y: "-15%",
+          });
+
       tl.to(
         model.rotation,
         {
-          x: Math.PI * 2,
           y: Math.PI * 1.5,
         },
-        0,
+        "<",
       );
 
-      window.innerWidth >= 768
-        ? tl.to(
-            "#model",
-            {
-              x: "25%",
-              y: -80,
-            },
-            0,
-          )
-        : tl.to(
-            "#model",
-            {
-              y: -80,
-            },
-            0,
-          );
-      // Speed - End
-
-      // Driver
-      tl.to(
-        "#model",
-        {
-          x: 0,
-          y: 60,
+      const tl2 = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#driver",
+          start: "-60% 40%",
+          end: "40% center",
+          scrub: true,
         },
-        0.5,
-      );
+      });
 
-      tl.to(
-        "#model",
-        {
-          y: 60,
-        },
-        0.5,
-      );
+      tl2.to(mountRef.current, {
+        x: 0,
+        y: 0,
+      });
 
-      tl.to(
+      tl2.to(
         model.rotation,
         {
           y: Math.PI * 2,
         },
-        0.5,
-      );
-      // Driver - End
-
-      // Last Section
-      tl.to(
-        "#model",
-        {
-          y: -80,
-        },
-        0.9,
+        "<",
       );
 
-      tl.to(
-        model.rotation,
-        {
-          x: Math.PI * 2.05,
-          y: Math.PI * 3,
+      const tl3 = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#end",
+          start: "-60% 40%",
+          end: "40% center",
+          scrub: true,
         },
-        0.9,
-      );
-      // Last Section - End
+      });
+
+      tl3.to(mountRef.current, {
+        y: "-15%",
+      });
+
+      tl3.to(model.rotation, {
+        y: Math.PI * 3,
+      });
+
+      
     });
 
-    modelRef.current.innerHTML = "";
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableZoom = false;
+    controls.enableRotate = false;
 
-    modelRef.current.appendChild(renderer.domElement);
+    camera.position.z = 5;
 
-    function animate() {
+    const animate = () => {
       requestAnimationFrame(animate);
-
-      ScrollTrigger.isInViewport("#end")
-        ? (controls.enableRotate = true)
-        : (controls.enableRotate = false);
-
-      renderer.render(scene, camera);
       controls.update();
-    }
+      renderer.render(scene, camera);
+    };
     animate();
+
+    const handleResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (mount.contains(renderer.domElement)) {
+        mount.removeChild(renderer.domElement);
+      }
+    };
   }, []);
 
   return (
     <div
-      ref={modelRef}
-      id="model"
-      className="fixed bottom-0 left-1/2 z-[1] h-[65%] w-[80%] -translate-x-1/2"
+      ref={mountRef}
+      className="fixed bottom-[15%] -z-[1] h-[60vh] w-full"
     ></div>
   );
 };
