@@ -4,6 +4,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
 
 const Model3D = () => {
   gsap.registerPlugin(ScrollTrigger);
@@ -12,6 +13,17 @@ const Model3D = () => {
 
   useEffect(() => {
     const mount = mountRef.current;
+
+    // Lenis
+    const lenis = new Lenis({ lerp: 0.05, smoothWheel: true });
+
+    lenis.on("scroll", ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 800);
+    });
+
+    gsap.ticker.lagSmoothing(0);
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
@@ -114,8 +126,6 @@ const Model3D = () => {
       tl3.to(model.rotation, {
         y: Math.PI * 3,
       });
-
-      
     });
 
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -143,6 +153,7 @@ const Model3D = () => {
       if (mount.contains(renderer.domElement)) {
         mount.removeChild(renderer.domElement);
       }
+      lenis.destroy();
     };
   }, []);
 

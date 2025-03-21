@@ -14,7 +14,7 @@
     "@tailwindcss/vite": "^4.0.8",
     "draco3d": "^1.5.7",
     "gsap": "^3.12.7",
-    "lenis": "^1.1.22",
+    "lenis": "^1.2.3",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-normalize": "^10.0.1",
     "postcss-preset-env": "^8.0.1",
